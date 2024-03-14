@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from capacity.views import GoogleLoginApi, GroupsView, UsersView, BackendPermissionsView
+from capacity.views import GoogleLoginApi, GroupsView, UsersView, BackendPermissionsView, FrontendPermissionsView
 
 # JWT authentication
 from rest_framework_simplejwt.views import (
@@ -35,4 +35,6 @@ urlpatterns = [
     path('api/users/', UsersView.as_view()),
     path('api/backend_permissions/', BackendPermissionsView.as_view()),
     path('api/backend_permissions/delete/<int:pk>/', BackendPermissionsView.as_view()),
+    path('api/frontend_permissions/', FrontendPermissionsView.as_view()),
+    path('api/frontend_permissions/delete/<int:pk>/', FrontendPermissionsView.as_view()),
 ]
