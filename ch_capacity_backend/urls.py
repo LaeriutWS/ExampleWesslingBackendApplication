@@ -17,9 +17,22 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from capacity.views import GoogleLoginApi
+from capacity.views import GoogleLoginApi, GroupsView, UsersView, BackendPermissionsView
+
+# JWT authentication
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/google-login/', GoogleLoginApi.as_view()),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+    path('api/groups/', GroupsView.as_view()),
+    path('api/users/', UsersView.as_view()),
+    path('api/backend_permissions/', BackendPermissionsView.as_view()),
+    path('api/backend_permissions/delete/<int:pk>/', BackendPermissionsView.as_view()),
 ]
