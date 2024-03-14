@@ -209,8 +209,6 @@ class MyPermissionsView(APIView):
         backend_serializer = BackendPermissionsSerializer(backend_permissions, many=True)
         frontend_serializer = FrontendPermissionsSerializer(frontend_permissions, many=True)
 
-        print(backend_serializer.data)
-
         return JsonResponse(
             {"backend_permissions": backend_serializer.data, "frontend_permissions": frontend_serializer.data},
             headers={'Access-Allow-Origin': '*'}, status=200)
