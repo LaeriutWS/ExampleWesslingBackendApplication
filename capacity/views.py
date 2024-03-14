@@ -191,6 +191,31 @@ class FrontendPermissionsView(generics.ListAPIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class MyPermissionsView(APIView):
+    """
+    url: /api/my_permissions
+    View to retrieve permissions for the current user
+    """
+
+    permission_classes = [IsAuthenticated]
+
+    @staticmethod
+    def get(request):
+        user = request.user
+        groups = user.groups.all()
+        backend_permissions = BackendPermissions.objects.filter(groups__in=groups).distinct()
+        frontend_permissions = FrontendPermissions.objects.filter(groups__in=groups).distinct()
+
+        backend_serializer = BackendPermissionsSerializer(backend_permissions, many=True)
+        frontend_serializer = FrontendPermissionsSerializer(frontend_permissions, many=True)
+
+        print(backend_serializer.data)
+
+        return JsonResponse(
+            {"backend_permissions": backend_serializer.data, "frontend_permissions": frontend_serializer.data},
+            headers={'Access-Allow-Origin': '*'}, status=200)
+
+
 class GoogleLoginApi(APIView):
     permission_classes = (AllowAny,)
 
