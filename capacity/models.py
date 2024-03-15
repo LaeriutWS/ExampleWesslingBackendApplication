@@ -31,6 +31,7 @@ class BackendPermissions(models.Model):
 
 class FrontendPermissions(models.Model):
     url = models.CharField(max_length=100, blank=False, null=False)
+    name = models.CharField(max_length=100, blank=True, null=True)
     ip_addresses = ArrayField(models.CharField(max_length=100), blank=True, null=True)
     groups = models.ManyToManyField(Group, blank=True)
     access = models.BooleanField(default=False)

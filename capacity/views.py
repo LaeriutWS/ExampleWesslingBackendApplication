@@ -58,8 +58,7 @@ class UsersView(APIView):
         # remove group attribute from request data
         groups = request.data.pop('groups')
         for group in groups:
-            print(group)
-            user.groups.add(group['id'])
+            user.groups.add(group)
 
         # update user
         serializer = UserSerializer(user, data=request.data, partial=True)
@@ -139,7 +138,6 @@ class BackendPermissionsView(generics.ListAPIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, *args, **kwargs):
-        print(kwargs['pk'])
         permission_data = BackendPermissions.objects.get_queryset().filter(id=kwargs['pk'])
         permission_data.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
